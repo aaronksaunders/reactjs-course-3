@@ -6,9 +6,14 @@ import {
   IonLabel,
   IonButton,
   IonListHeader,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonIcon,
   IonCard,
   IonCardHeader
 } from "@ionic/react";
+import { trash, document, create } from "ionicons/icons";
 
 class ListUsers extends React.Component {
   state = {
@@ -24,32 +29,40 @@ class ListUsers extends React.Component {
           </IonListHeader>
           {this.props.users.map((_user, _index) => {
             return (
-              <IonItem key={_user.id}>
-                <IonLabel>
-                  <h1>
-                    {_user.name.first}&nbsp;{_user.name.last}
-                  </h1>
-                  <h3>{_user.id}</h3>
-                </IonLabel>
-                <IonButton
-                  onClick={() => this.props.onEdit(_index)}
-                >
-                  Edit
-                </IonButton>
-                <IonButton
-                  color="danger"
-                  onClick={() => this.props.onDelete(_index)}
-                >
-                  Delete
-                </IonButton>
-              </IonItem>
+              <IonItemSliding key={_user.id}>
+                <IonItem key={_user.id}>
+                  <IonLabel class="ion-text-wrap">
+                    <h1>
+                      {_user.name.first}&nbsp;{_user.name.last}
+                    </h1>
+                    <h3>{_user.id}</h3>
+                  </IonLabel>
+                </IonItem>
+
+                <IonItemOptions side="end">
+                  <IonItemOption color="danger">
+                    <IonIcon
+                      slot="icon-only"
+                      icon={trash}
+                      onClick={() => this.props.onDelete(_index)}
+                    ></IonIcon>
+                  </IonItemOption>
+                  <IonItemOption>
+                    <IonIcon
+                      slot="icon-only"
+                      icon={create}
+                      onClick={() => this.props.onEdit(_index)}
+                    ></IonIcon>
+                  </IonItemOption>
+                </IonItemOptions>
+              </IonItemSliding>
             );
           })}
         </IonList>
       </>
     ) : (
       <IonCard>
-        <IonCardHeader style={{textAlign :"center"}}>
+        <IonCardHeader style={{ textAlign: "center" }}>
           <h3>EMPTY LIST</h3>
         </IonCardHeader>
       </IonCard>

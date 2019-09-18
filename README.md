@@ -1,3 +1,13 @@
+
+
+# ReactJS Course Session 3
+
+- Update user object
+- ionic framework components
+- React-Router Integration
+  - withRouter
+  - BrowserHistory
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

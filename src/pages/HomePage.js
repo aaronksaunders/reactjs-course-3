@@ -21,7 +21,7 @@ class HomePage extends React.Component {
             <IonTitle>Home Page</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+        <IonContent padding>
           <ListUsers
             users={users}
             onEdit={onEdit}

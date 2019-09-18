@@ -77,7 +77,6 @@ class AddUser extends Component {
     this.props.handleSubmit(userName);
 
     // go back to default route
-    debugger;
     this.props.history.goBack();
   };
 

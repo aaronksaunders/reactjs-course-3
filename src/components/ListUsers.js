@@ -23,7 +23,7 @@ class ListUsers extends React.Component {
     let users = this.props.users;
     return users.length !== 0 ? (
       <>
-        <IonList padding>
+        <IonList>
           <IonListHeader>
             <h2> User List</h2>
           </IonListHeader>
@@ -63,7 +63,7 @@ class ListUsers extends React.Component {
     ) : (
       <IonCard>
         <IonCardHeader style={{ textAlign: "center" }}>
-          <h3>EMPTY LIST</h3>
+          <h4>Empty List...</h4>
         </IonCardHeader>
       </IonCard>
     );

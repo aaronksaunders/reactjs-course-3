@@ -44,13 +44,11 @@ class App extends React.Component {
   };
 
   handleEditUser = _userIndex => {
-    debugger;
     history.push("/edit-user/" + _userIndex);
     this.setState({ currentUser: _userIndex });
   };
 
   handleUpdateUser = _updatedUser => {
-    debugger;
     let { people, currentUser } = this.state;
     let newUser = {
       ...people[currentUser],

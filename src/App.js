@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import createHashHistory from "history/createBrowserHistory";
-import { Router, Route, Link, Redirect } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import "./App.css";
 
 import HomePage from "./pages/HomePage";

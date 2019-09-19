@@ -4,6 +4,11 @@ import PropTypes from "prop-types"; // https://reactjs.org/docs/typechecking-wit
 import { AppContext } from "../Provider";
 
 const ListUsers = ({ onDelete, onEdit }) => {
+  /**
+   *
+   * @param {Object} _user
+   * @param {Number} _index
+   */
   let renderListEntry = (_user, _index) => {
     return (
       <div key={_user.id} className="list-entry">
@@ -19,17 +24,13 @@ const ListUsers = ({ onDelete, onEdit }) => {
 
   return (
     <AppContext.Consumer>
-      {({ people }) => {
-        {
-          return people.length !== 0 ? (
-            people.map(renderListEntry)
-          ) : (
-            <>
-              <div style={{ padding: 10 }}>No Users...</div>
-            </>
-          );
-        }
-      }}
+      {({ people }) =>
+        people.length !== 0 ? (
+          people.map(renderListEntry)
+        ) : (
+          <div style={{ padding: 10 }}>No Users...</div>
+        )
+      }
     </AppContext.Consumer>
   );
 };

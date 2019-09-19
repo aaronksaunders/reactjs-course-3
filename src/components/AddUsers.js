@@ -121,4 +121,6 @@ AddUser.propTypes = {
   user: PropTypes.object
 };
 
+// this higher order component gives me access
+// the the router information in my component
 export default withRouter(AddUser);

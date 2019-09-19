@@ -4,11 +4,10 @@ import ListUsers from "../components/ListUsers";
 
 class HomePage extends React.Component {
   render() {
-    let { users, onDelete, onEdit, history } = this.props;
+    let { onDelete, onEdit, history } = this.props;
     return (
       <>
           <ListUsers
-            users={users}
             onEdit={onEdit}
             onDelete={onDelete}
           ></ListUsers>

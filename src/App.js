@@ -6,23 +6,19 @@ import "./App.css";
 import HomePage from "./pages/HomePage";
 import NewUserPage from "./pages/NewUserPage";
 import EditUserPage from "./pages/EditUserPage";
-// Ionic
-/* Core CSS required for Ionic components to work properly */
-import "@ionic/react/css/core.css";
-
-/* Optional CSS utils that can be commented out */
-import "@ionic/react/css/padding.css";
-import "@ionic/react/css/float-elements.css";
-import "@ionic/react/css/text-alignment.css";
-import "@ionic/react/css/text-transformation.css";
-import "@ionic/react/css/flex-utils.css";
-import "@ionic/react/css/display.css";
-import { IonApp } from "@ionic/react";
 
 const history = createHashHistory();
 class App extends React.Component {
   state = {
-    people: [],
+    people: [
+      {
+        id: 12120,
+        name: {
+          first: "Rose",
+          last: "Crayola"
+        }
+      }
+    ],
     currentUser: null
   };
 
@@ -85,7 +81,7 @@ class App extends React.Component {
   // https://tylermcginnis.com/react-router-pass-props-to-components/
   render() {
     return (
-      <IonApp>
+      <div className="App">
         <Router history={history}>
           <Route path="/" render={() => <Redirect to="/home" />} />
           <Route
@@ -119,7 +115,7 @@ class App extends React.Component {
           />
           {/* <Route exact path="/edit-user" component={EditUserPage} /> */}
         </Router>
-      </IonApp>
+      </div>
     );
   }
 }

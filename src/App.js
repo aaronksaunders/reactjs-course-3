@@ -1,75 +1,75 @@
-import React from "react";
+import React, { useContext } from "react";
 import createHashHistory from "history/createBrowserHistory";
-import { Router, Route, Link, Redirect } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import "./App.css";
 
 import HomePage from "./pages/HomePage";
 import NewUserPage from "./pages/NewUserPage";
 import EditUserPage from "./pages/EditUserPage";
-// Ionic
-/* Core CSS required for Ionic components to work properly */
-import "@ionic/react/css/core.css";
 
-/* Optional CSS utils that can be commented out */
-import "@ionic/react/css/padding.css";
-import "@ionic/react/css/float-elements.css";
-import "@ionic/react/css/text-alignment.css";
-import "@ionic/react/css/text-transformation.css";
-import "@ionic/react/css/flex-utils.css";
-import "@ionic/react/css/display.css";
-import { IonApp } from "@ionic/react";
+import { AppContext } from "./Provider";
 
 const history = createHashHistory();
-class App extends React.Component {
-  state = {
-    people: [],
-    currentUser: null
-  };
+
+const App = () => {
+  // this gives me access to values from the context to
+  // utilized in my component's functions
+  const contextValue = useContext(AppContext);
 
   /**
    * function to add users to the people object in this components
    * state
+   *
+   * @param {*} _userInfo
    */
-  handleAddUser = _userInfo => {
-    console.log(_userInfo);
+  const handleAddUser = _userInfo => {
+    debugger;
     let createdDate = new Date().getTime();
-    let { people } = this.state;
+    let { people } = contextValue;
 
     // array method to add item to the end of an array
     people.push({ name: _userInfo, createdDate, id: createdDate });
-
-    // set the state to the value of people array
-    // that was just updated
-    this.setState({ people: people });
   };
 
-  handleEditUser = _userIndex => {
+  /**
+   * when called re directs the user to the next page
+   * while setting the index of the object to edit
+   *
+   * @param {*} _userIndex
+   */
+  const handleEditUser = _userIndex => {
     history.push("/edit-user/" + _userIndex);
-    this.setState({ currentUser: _userIndex });
   };
 
-  handleUpdateUser = _updatedUser => {
-    let { people, currentUser } = this.state;
+  /**
+   * called with the updated user object, and the index of the element
+   * so it can be updated in the state/context
+   * @param {*} _updatedUser
+   * @param {*} _currentIndex
+   */
+  const handleUpdateUser = (_updatedUser, _currentIndex) => {
+    let { people, setPeople } = contextValue;
     let newUser = {
-      ...people[currentUser],
+      ...people[_currentIndex],
       name: _updatedUser
     };
 
-    // remove the element and create a new array
-    let newPeople = [
-      ...people.slice(0, currentUser), // get all items in array BEFORE to selected index
+    // add the updated user to the array and set the state
+    setPeople([
+      ...people.slice(0, _currentIndex), // get all items in array BEFORE to selected index
       newUser,
-      ...people.slice(currentUser + 1) // get all items in array AFTER the selected index
-    ];
-
-    // set the state to the value of newPeople array
-    // that was just updated
-    this.setState({ people: newPeople, currentUser: null });
+      ...people.slice(_currentIndex + 1) // get all items in array AFTER the selected index
+    ]);
   };
 
-  //
-  handleDeleteUser = _userIndex => {
-    let { people } = this.state;
+  /**
+   * remove the user from the array using the specified index and
+   * update the state in the context
+   *
+   * @param {*} _userIndex
+   */
+  const handleDeleteUser = _userIndex => {
+    let { people, setPeople } = contextValue;
 
     // remove the element and create a new array
     let newPeople = [
@@ -77,51 +77,41 @@ class App extends React.Component {
       ...people.slice(_userIndex + 1) // get all items in array AFTER the selected index
     ];
 
-    // set the state to the value of newPeople array
-    // that was just updated
-    this.setState({ people: newPeople });
+    setPeople(newPeople);
   };
 
   // https://tylermcginnis.com/react-router-pass-props-to-components/
-  render() {
-    return (
-      <IonApp>
-        <Router history={history}>
-          <Route path="/" render={() => <Redirect to="/home" />} />
-          <Route
-            exact
-            path="/home"
-            render={props => (
-              <HomePage
-                {...props}
-                users={this.state.people}
-                onDelete={this.handleDeleteUser}
-                onEdit={this.handleEditUser}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/new-user"
-            render={props => (
-              <NewUserPage {...props} handleSubmit={this.handleAddUser} />
-            )}
-          />
-          <Route
-            path="/edit-user/:index"
-            render={props => (
-              <EditUserPage
-                {...props}
-                users={this.state.people}
-                handleUpdateUser={this.handleUpdateUser}
-              />
-            )}
-          />
-          {/* <Route exact path="/edit-user" component={EditUserPage} /> */}
-        </Router>
-      </IonApp>
-    );
-  }
-}
+
+  return (
+    <div className="App">
+      <Router history={history}>
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
+        <Route
+          path="/home"
+          render={props => (
+            <HomePage
+              {...props}
+              onDelete={handleDeleteUser}
+              onEdit={handleEditUser}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/new-user"
+          render={props => (
+            <NewUserPage {...props} handleSubmit={handleAddUser} />
+          )}
+        />
+        <Route
+          path="/edit-user/:index"
+          render={props => (
+            <EditUserPage {...props} handleUpdateUser={handleUpdateUser} />
+          )}
+        />
+      </Router>
+    </div>
+  );
+};
 
 export default App;

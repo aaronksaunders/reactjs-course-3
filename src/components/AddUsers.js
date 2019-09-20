@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types"; // https://reactjs.org/docs/typechecking-with-proptypes.html
-import { IonItem, IonInput, IonLabel, IonButton } from "@ionic/react";
 
 class AddUser extends Component {
   constructor(props) {
@@ -51,10 +50,7 @@ class AddUser extends Component {
     this.setState({ name: { first: "", last: "" }, invalid: true });
 
     // clear the name
-    this.firstNameRef.current.children[0].value = null;
     this.firstNameRef.current.value = null;
-
-    this.lastNameRef.current.children[0].value = null;
     this.lastNameRef.current.value = null;
   };
 
@@ -83,33 +79,37 @@ class AddUser extends Component {
   render() {
     return (
       <>
-        <IonItem>
-          <IonLabel position="floating">First Name</IonLabel>
-          <IonInput
-            type="text"
-            name="first"
-            ref={this.firstNameRef}
-            value={this.state.name.first}
-            onInput={this.handleChangeText}
-          ></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Last Name</IonLabel>
-          <IonInput
-            type="text"
-            name="last"
-            ref={this.lastNameRef}
-            value={this.state.name.last}
-            onInput={this.handleChangeText}
-          ></IonInput>
-        </IonItem>
-        <IonButton
-          onClick={this.handleBtnClick}
-          disabled={this.state.invalid === true}
-        >
-          {this.props.user ? "Save User" : "Add User"}
-        </IonButton>
-        <IonButton onClick={this.clearInputFields}>Clear</IonButton>
+        <div className="user-form">
+            <div className="user-form-input-wrapper">
+            <label>First Name
+            <input
+              type="text"
+              name="first"
+              ref={this.firstNameRef}
+              value={this.state.name.first}
+              onChange={this.handleChangeText}
+            />
+            </label>
+            </div>
+            <div className="user-form-input-wrapper">
+            <label>Last Name
+            <input
+              type="text"
+              name="last"
+              ref={this.lastNameRef}
+              value={this.state.name.last}
+              onChange={this.handleChangeText}
+            />
+            </label>
+          </div>
+          <button
+            onClick={this.handleBtnClick}
+            disabled={this.state.invalid === true}
+          >
+            {this.props.user ? "Save User" : "Add User"}
+          </button>
+          <button onClick={this.clearInputFields}>Clear</button>
+        </div>
       </>
     );
   }
@@ -121,4 +121,6 @@ AddUser.propTypes = {
   user: PropTypes.object
 };
 
+// this higher order component gives me access
+// the the router information in my component
 export default withRouter(AddUser);

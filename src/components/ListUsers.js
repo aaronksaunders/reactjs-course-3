@@ -1,78 +1,43 @@
 import React from "react";
 import PropTypes from "prop-types"; // https://reactjs.org/docs/typechecking-with-proptypes.html
-import {
-  IonList,
-  IonItem,
-  IonLabel,
-  IonButton,
-  IonListHeader,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
-  IonIcon,
-  IonCard,
-  IonCardHeader
-} from "@ionic/react";
-import { trash, document, create } from "ionicons/icons";
 
-class ListUsers extends React.Component {
-  state = {
-    name: {}
-  };
-  render() {
-    let users = this.props.users;
-    return users.length !== 0 ? (
-      <>
-        <IonList>
-          <IonListHeader>
-            <h2> User List</h2>
-          </IonListHeader>
-          {this.props.users.map((_user, _index) => {
-            return (
-              <IonItemSliding key={_user.id}>
-                <IonItem key={_user.id}>
-                  <IonLabel class="ion-text-wrap">
-                    <h1>
-                      {_user.name.first}&nbsp;{_user.name.last}
-                    </h1>
-                    <h3>{_user.id}</h3>
-                  </IonLabel>
-                </IonItem>
+import { AppContext } from "../Provider";
 
-                <IonItemOptions side="end">
-                  <IonItemOption color="danger">
-                    <IonIcon
-                      slot="icon-only"
-                      icon={trash}
-                      onClick={() => this.props.onDelete(_index)}
-                    ></IonIcon>
-                  </IonItemOption>
-                  <IonItemOption>
-                    <IonIcon
-                      slot="icon-only"
-                      icon={create}
-                      onClick={() => this.props.onEdit(_index)}
-                    ></IonIcon>
-                  </IonItemOption>
-                </IonItemOptions>
-              </IonItemSliding>
-            );
-          })}
-        </IonList>
-      </>
-    ) : (
-      <IonCard>
-        <IonCardHeader style={{ textAlign: "center" }}>
-          <h4>Empty List...</h4>
-        </IonCardHeader>
-      </IonCard>
+const ListUsers = ({ onDelete, onEdit }) => {
+  /**
+   *
+   * @param {Object} _user
+   * @param {Number} _index
+   */
+  let renderListEntry = (_user, _index) => {
+    return (
+      <div key={_user.id} className="list-entry">
+        <div className="title">
+          {_user.name.first}&nbsp;{_user.name.last}
+        </div>
+        <div>{_user.id}</div>
+        <button onClick={() => onDelete(_index)}>DELETE</button>
+        <button onClick={() => onEdit(_index)}>EDIT</button>
+      </div>
     );
-  }
-}
+  };
+
+  return (
+    <AppContext.Consumer>
+      {context =>
+        context.people.length !== 0 ? (
+          context.people.map(renderListEntry)
+        ) : (
+          <div style={{ padding: 10 }}>No Users...</div>
+        )
+      }
+    </AppContext.Consumer>
+  );
+};
 
 ListUsers.propTypes = {
-  users: PropTypes.array.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired
 };
 
 export default ListUsers;

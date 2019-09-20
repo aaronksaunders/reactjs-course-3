@@ -3,7 +3,7 @@
 # ReactJS Course Session 3
 
 - Update user object
-- ionic framework components
+- REMOVED - ionic framework components
 - React-Router Integration
   - withRouter
   - BrowserHistory

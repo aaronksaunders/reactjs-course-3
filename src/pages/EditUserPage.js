@@ -1,53 +1,38 @@
 import React from "react";
 import { withRouter } from "react-router";
+import PropTypes from "prop-types";
+
 import AddUser from "../components/AddUsers";
+import { AppContext } from "../Provider";
 
-import {
-  IonPage,
-  IonContent,
-  IonButton,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonCard,
-  IonCardContent,
-  IonButtons
-} from "@ionic/react";
+const EditUserPage = ({ match, handleUpdateUser, history }) => (
+  <>
+    <h1>Edit User Page</h1>
+    <button onClick={() => history.goBack()}>Go Back</button>
+    <AppContext.Consumer>
+      {context => {
+        // get the index passed in as a property
+        let index = match.params.index;
 
-class EditUserPage extends React.Component {
-  state = {
-    currentUser: this.props.users[this.props.match.params.index]
-  };
+        // get the people from the context and use the index to get the
+        // correct user to pass into add user
+        let user = context.people[index];
 
-  render() {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Edit User Page</IonTitle>
-            <IonButtons slot="end">
-              <IonButton
-                color="danger"
-                onClick={() => this.props.history.goBack()}
-              >
-                Go Back
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonCard>
-            <IonCardContent>
-              <AddUser
-                user={this.state.currentUser}
-                handleSubmit={this.props.handleUpdateUser}
-              />
-            </IonCardContent>
-          </IonCard>
-        </IonContent>
-      </IonPage>
-    );
-  }
-}
+        return (
+          <AddUser
+            user={user}
+            handleSubmit={e => {
+              handleUpdateUser(e, index);
+            }}
+          />
+        );
+      }}
+    </AppContext.Consumer>
+  </>
+);
+
+EditUserPage.propTypes = {
+  handleUpdateUser: PropTypes.func.isRequired
+};
 
 export default withRouter(EditUserPage);

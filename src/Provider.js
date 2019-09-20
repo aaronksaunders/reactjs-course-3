@@ -1,7 +1,7 @@
 import React from "react";
 export const AppContext = React.createContext();
 export default class AppProvider extends React.Component {
-  // specify the state for the content provider
+  // specify the state structure and inital state for the content provider
   state = {
     people: [
       {
@@ -16,6 +16,10 @@ export default class AppProvider extends React.Component {
     // function to call to update the user list
     setPeople: _people => {
       this.setState({ people: [..._people] });
+    },
+    // function to call to update the current user
+    setCurrentUser: _user => {
+      this.setState({ currentUser: _user });
     }
   };
 

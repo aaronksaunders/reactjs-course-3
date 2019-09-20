@@ -12,17 +12,18 @@ import { AppContext } from "./Provider";
 const history = createHashHistory();
 
 const App = () => {
-  // this gives me access to values from the context to 
-  // utilized in my component
+  // this gives me access to values from the context to
+  // utilized in my component's functions
   const contextValue = useContext(AppContext);
 
   /**
    * function to add users to the people object in this components
    * state
-   * 
-   * @param {*} _userInfo 
+   *
+   * @param {*} _userInfo
    */
   const handleAddUser = _userInfo => {
+    debugger;
     let createdDate = new Date().getTime();
     let { people } = contextValue;
 
@@ -31,17 +32,20 @@ const App = () => {
   };
 
   /**
-   * 
-   * @param {*} _userIndex 
+   * when called re directs the user to the next page
+   * while setting the index of the object to edit
+   *
+   * @param {*} _userIndex
    */
   const handleEditUser = _userIndex => {
     history.push("/edit-user/" + _userIndex);
   };
 
   /**
-   * 
-   * @param {*} _updatedUser 
-   * @param {*} _currentIndex 
+   * called with the updated user object, and the index of the element
+   * so it can be updated in the state/context
+   * @param {*} _updatedUser
+   * @param {*} _currentIndex
    */
   const handleUpdateUser = (_updatedUser, _currentIndex) => {
     let { people, setPeople } = contextValue;
@@ -50,7 +54,7 @@ const App = () => {
       name: _updatedUser
     };
 
-    // remove the element and create a new array
+    // add the updated user to the array and set the state
     setPeople([
       ...people.slice(0, _currentIndex), // get all items in array BEFORE to selected index
       newUser,
@@ -59,8 +63,10 @@ const App = () => {
   };
 
   /**
-   * 
-   * @param {*} _userIndex 
+   * remove the user from the array using the specified index and
+   * update the state in the context
+   *
+   * @param {*} _userIndex
    */
   const handleDeleteUser = _userIndex => {
     let { people, setPeople } = contextValue;
@@ -79,9 +85,8 @@ const App = () => {
   return (
     <div className="App">
       <Router history={history}>
-        <Route path="/" render={() => <Redirect to="/home" />} />
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
         <Route
-          exact
           path="/home"
           render={props => (
             <HomePage

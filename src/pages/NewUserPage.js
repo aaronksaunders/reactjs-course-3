@@ -3,10 +3,6 @@ import { withRouter } from "react-router";
 import AddUser from "../components/AddUsers";
 
 class NewUserPage extends React.Component {
-  state = {
-    people: []
-  };
-
   render() {
     return (
       <>

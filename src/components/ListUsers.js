@@ -24,9 +24,9 @@ const ListUsers = ({ onDelete, onEdit }) => {
 
   return (
     <AppContext.Consumer>
-      {({ people }) =>
-        people.length !== 0 ? (
-          people.map(renderListEntry)
+      {context =>
+        context.people.length !== 0 ? (
+          context.people.map(renderListEntry)
         ) : (
           <div style={{ padding: 10 }}>No Users...</div>
         )
